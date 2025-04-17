@@ -118,7 +118,7 @@ class CellTest {
 		Cell cell = new Cell(CellComponents.APERTURE, 
 				CellComponents.EXIT, 
 				CellComponents.APERTURE, 
-				CellComponents.WALL);
+				CellComponents.WALL); 
 		cell.setLeft(null);
 		assertEquals(CellComponents.WALL, cell.getLeft());
 	}
@@ -138,7 +138,7 @@ class CellTest {
 		Cell cell = new Cell(CellComponents.APERTURE, 
 				CellComponents.EXIT, 
 				CellComponents.APERTURE, 
-				CellComponents.WALL);
+				CellComponents.WALL); 
 		cell.setRight(null);
 		assertEquals(CellComponents.WALL, cell.getRight());
 	}

@@ -16,26 +16,45 @@ public class Cell {
 		return left;
 	}
 	public void setLeft(CellComponents left) {
-		this.left = left;
+		if (left == null) {
+			this.left = CellComponents.WALL;
+		} else {
+			this.left = left;
+		}
 	}
 	public CellComponents getRight() {
 		return right;
 	}
 	public void setRight(CellComponents right) {
-		this.right = right;
+		if (right == null) {
+			this.right = CellComponents.WALL;
+		} else {
+			this.right = right;
+		}
 	}
 	public CellComponents getUp() {
 		return up;
 	}
 	public void setUp(CellComponents up) {
-		this.up = up;
+		if (up == null) {
+			this.up = CellComponents.WALL;
+		} else {
+			this.up = up;
+		}
 	}
 	public CellComponents getDown() {
 		return down;
 	}
 	public void setDown(CellComponents down) {
-		this.down = down;
+		if (down == null) {
+			this.down = CellComponents.WALL;
+		} else {
+			this.down = down;
+		}
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Cell [left=" + this.getLeft() + ", right=" + this.getRight() + ", up=" + this.getUp() + ", down=" + this.getDown() +  "]";
+	}
 }

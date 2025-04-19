@@ -1,6 +1,7 @@
 package hw4.maze.classes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Grid {
@@ -12,9 +13,67 @@ public class Grid {
 	
 	public Grid() {
 		Random rand = new Random();
-		this.rows = new ArrayList<Row>();
 		int randomInt = rand.nextInt(5) + 3;
+		this.generateRandomMaze(randomInt);
+	}
+	
+	public Grid(int randomInt) {
+		this.generateRandomMaze(randomInt);
+	}
+	
+	
+	
+	
+	private ArrayList<Integer> getAdjacentTiles(int input, ArrayList<Integer> visited) {
+		ArrayList<Integer> tempTileList = new ArrayList<Integer>();
+		int rowSize = this.getRows().get(0).getCells().size();
+		int temp = input % rowSize;
+		if (temp != 0 && !visited.contains(input - 1)) { // can get left
+			tempTileList.add(input - 1);
+		}
+		if (((temp + 1) != rowSize) && !visited.contains(input + 1)) { // can get right
+			tempTileList.add(input + 1);
+		}
+		if (((input + rowSize - rowSize * rowSize) < 0) && !visited.contains(input + rowSize)) { // can go down
+			tempTileList.add(input + rowSize);
+		}
+		if (((input + 1 - rowSize) > 0) && !visited.contains(input - rowSize)) { // can go up
+			tempTileList.add(input - rowSize);
+		}
+		Collections.shuffle(tempTileList);
+		return tempTileList;
+	}
+	
+	private Cell positionToCell (int input) {
+		int rowSize = this.getRows().get(0).getCells().size();
+		int rowInInput = input / rowSize;
+		int cellPositionInInput = input - (input / rowSize) * rowSize;
+		return this.getRows().get(rowInInput).getCells().get(cellPositionInInput);
+	}
+	
+	private void clearWall(int currentTile, int previousTile) {
+		int rowSize = this.getRows().get(0).getCells().size();
+		Cell currentCell = positionToCell(currentTile);
+		Cell previousCell = positionToCell(previousTile);
+		if (currentTile - 1 == previousTile) { // current is right of previous
+			currentCell.setLeft(CellComponents.APERTURE);
+			previousCell.setRight(CellComponents.APERTURE);
+		} else if (currentTile + 1 == previousTile) { // current is left of previous
+			currentCell.setRight(CellComponents.APERTURE);
+			previousCell.setLeft(CellComponents.APERTURE);
+		} else if (currentTile - rowSize == previousTile) { // current is under previous
+			currentCell.setUp(CellComponents.APERTURE);
+			previousCell.setDown(CellComponents.APERTURE);
+		} else if (currentTile + rowSize == previousTile) { // current is above previous
+			currentCell.setDown(CellComponents.APERTURE);
+			previousCell.setUp(CellComponents.APERTURE);
+		}
+	}
+	
+	private void generateRandomMaze(int randomInt) {
+		Random rand = new Random();
 		int randomExitInt = rand.nextInt(randomInt);
+		this.rows = new ArrayList<Row>();
 		for (int i = 0; i < randomInt; i++) {
 			ArrayList<Cell> cells = new ArrayList<Cell>();
 			for (int j = 0; j < randomInt; j++) {
@@ -26,6 +85,31 @@ public class Grid {
 			}
 			Row temp = new Row(cells);
 			this.rows.add(temp);
+		}
+		
+		ArrayList<Integer> visited = new ArrayList<Integer>();
+		ArrayList<Integer> previous = new ArrayList<Integer>();
+		ArrayList<Integer> stack = new ArrayList<Integer>();
+		int rowSize = this.getRows().get(0).getCells().size();
+		int startTile = rowSize * rowSize - 1;
+		ArrayList<Integer> tileList = getAdjacentTiles(startTile, visited);
+		for (int item : tileList) {
+			stack.add(item);
+			previous.add(startTile);
+			visited.add(item);
+		}
+		while (stack.size() > 0) {
+			int currentTile = stack.remove(stack.size() - 1);
+			int previousTile = previous.remove(previous.size() - 1);
+			clearWall(currentTile, previousTile);
+			
+			tileList.clear();
+			tileList = getAdjacentTiles(currentTile, visited);
+			for (int item : tileList) {
+				stack.add(item);
+				previous.add(currentTile);
+				visited.add(item);
+			}
 		}
 	}
 	

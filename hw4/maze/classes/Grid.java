@@ -7,23 +7,42 @@ import java.util.Random;
 public class Grid {
 	ArrayList<Row> rows;
 
+	/**
+	 * Grid constructor that takes in a list of Row objects
+	 * @param rows
+	 */
 	public Grid(ArrayList<Row> rows) {
 		this.rows = rows;
 	}
 	
+	/**
+	 * Grid constructor that takes in no parameters and randomly creates a grid.
+	 */
 	public Grid() {
 		Random rand = new Random();
 		int randomInt = rand.nextInt(5) + 3;
 		this.generateRandomMaze(randomInt);
 	}
 	
+	/**
+	 * Grid constructor that takes in the size of the grid and randomly creates a grid
+	 * using that.
+	 * @param randomInt
+	 */
 	public Grid(int randomInt) {
 		this.generateRandomMaze(randomInt);
 	}
 	
 	
 	
-	
+	/**
+	 * Takes in a current tile in integer form and the current visited list. Then
+	 * determines if adjacent tiles are valid or not. Returns a list of tiles in integer
+	 * format that are valid.
+	 * @param input
+	 * @param visited
+	 * @return ArrayList<Integer> 
+	 */
 	private ArrayList<Integer> getAdjacentTiles(int input, ArrayList<Integer> visited) {
 		ArrayList<Integer> tempTileList = new ArrayList<Integer>();
 		int rowSize = this.getRows().get(0).getCells().size();
@@ -44,6 +63,12 @@ public class Grid {
 		return tempTileList;
 	}
 	
+	/**
+	 * Converts an integer position into the Cell object in the corresponding
+	 * spot in the grid.
+	 * @param input
+	 * @return
+	 */
 	private Cell positionToCell (int input) {
 		int rowSize = this.getRows().get(0).getCells().size();
 		int rowInInput = input / rowSize;
@@ -51,6 +76,11 @@ public class Grid {
 		return this.getRows().get(rowInInput).getCells().get(cellPositionInInput);
 	}
 	
+	/**
+	 * Clears the walls between two inputed tiles.
+	 * @param currentTile
+	 * @param previousTile
+	 */
 	private void clearWall(int currentTile, int previousTile) {
 		int rowSize = this.getRows().get(0).getCells().size();
 		Cell currentCell = positionToCell(currentTile);
@@ -70,6 +100,10 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * Generates a random grid using the given grid size.
+	 * @param randomInt
+	 */
 	private void generateRandomMaze(int randomInt) {
 		Random rand = new Random();
 		int randomExitInt = rand.nextInt(randomInt);
@@ -113,6 +147,9 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * Testing function
+	 */
 	public void printGrid() {
 		int rowCounter = 0;
 		int rowSize = this.getRows().size();
@@ -175,6 +212,7 @@ public class Grid {
 		}
 	}
 
+	
 	public ArrayList<Row> getRows() {
 		return rows;
 	}
@@ -183,6 +221,9 @@ public class Grid {
 		this.rows = rows;
 	}
 	
+	/**
+	 * Converts a Grid into string format.
+	 */
 	@Override
 	public String toString() {
 		String temp = "Grid [rows=[";

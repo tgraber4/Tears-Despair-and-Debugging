@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Row {
 	ArrayList<Cell> cells;
 
+	/**
+	 * Takes in a list of Cell objects and returns the created Row object.
+	 * @param cells
+	 */
 	public Row(ArrayList<Cell> cells) {
 		this.cells = cells;
 	}
@@ -18,7 +22,9 @@ public class Row {
 	}
 	
 	
-	
+	/**
+	 * Converts a Row into string format.
+	 */
 	@Override
 	public String toString() {
 		String temp = "Row [cells=[";

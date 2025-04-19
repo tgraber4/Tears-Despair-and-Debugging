@@ -5,6 +5,15 @@ public class Cell {
 	private CellComponents right;
 	private CellComponents up;
 	private CellComponents down;
+	
+	/**
+	 * Takes in CellComponent members for the left, right, up, and down attributes of a cell
+	 * and returns a created Cell object with those attributes.
+	 * @param left
+	 * @param right
+	 * @param up
+	 * @param down
+	 */
 	public Cell(CellComponents left, CellComponents right, CellComponents up, CellComponents down) {
 		super();
 		this.left = left;
@@ -53,6 +62,9 @@ public class Cell {
 		}
 	}
 	
+	/**
+	 * Converts a Cell into string format.
+	 */
 	@Override
 	public String toString() {
 		return "Cell [left=" + this.getLeft() + ", right=" + this.getRight() + ", up=" + this.getUp() + ", down=" + this.getDown() +  "]";
